@@ -324,7 +324,7 @@ namespace OpenGL
             //end of - Handeling of translate rotate mathematically correct
             
 
-            //Now drawing scene
+            //Now Drawing the scene
             DrawChest();
 
             //REFLECTION
