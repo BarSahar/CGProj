@@ -249,8 +249,6 @@ namespace OpenGL
             GL.glTexCoord2f(1.0f, 0.0f);
             GL.glVertex3d(10, 10, -2);
 
-            
-
             GL.glEnd();
             GL.glDisable(GL.GL_TEXTURE_2D);
             GL.glPopMatrix();
@@ -259,6 +257,7 @@ namespace OpenGL
         }
         void DrawTheWomanInRed()
         {
+            GL.glColor3f(1.0f, 1.0f, 1.0f);
             GL.glPushMatrix();
             GL.glRotated(intOptionC, 0, 0, 1); //rotating the dancer
             GL.glPushMatrix();
@@ -296,47 +295,68 @@ namespace OpenGL
             //Right
             GL.glPushMatrix();
             GL.glTranslated(0.75f, 0f, 0f);
-            GLU.gluSphere(obj, 0.3, 20, 20); //right shoulder
+            //right shoulder
+            GLU.gluSphere(obj, 0.3, 20, 20);
             GL.glRotated(shoulderAngle, 1, 0, 0);
-            GLU.gluCylinder(obj, 0.2, 0.19, 1.5, 20, 20); //right arm
+            //right arm
+            GLU.gluCylinder(obj, 0.2, 0.19, 1.5, 20, 20);
             GL.glTranslated(0.0f, 0f, 1.5f);
-            GLU.gluSphere(obj, 0.3, 20, 20); //elbow
+            //elbow
+            GLU.gluSphere(obj, 0.3, 20, 20);
             GL.glRotated(-15, 1, 0, 0);
-            GLU.gluCylinder(obj, 0.2, 0.19, 1.5, 20, 20); //elbow
+            //elbow
+            GLU.gluCylinder(obj, 0.2, 0.19, 1.5, 20, 20);
             GL.glTranslated(0.0f, 0f, 1.5f);
-            GLU.gluCylinder(obj, 0.2, 0, .5, 20, 20); //elbow
+            //elbow
+            GLU.gluCylinder(obj, 0.2, 0, .5, 20, 20);
             GL.glPopMatrix();
             //Left
             GL.glPushMatrix();
             GL.glTranslated(-0.75f, 0f, 0f);
-            GLU.gluSphere(obj, 0.3, 20, 20); //right shoulder
+            //right shoulder
+            GLU.gluSphere(obj, 0.3, 20, 20); 
             GL.glRotated(shoulderAngle, 1, 0, 0);
-            GLU.gluCylinder(obj, 0.2, 0.19, 1.5, 20, 20); //right arm
+            //right arm
+            GLU.gluCylinder(obj, 0.2, 0.19, 1.5, 20, 20); 
             GL.glTranslated(0.0f, 0f, 1.5f);
-            GLU.gluSphere(obj, 0.3, 20, 20); //elbow
+            //elbow
+            GLU.gluSphere(obj, 0.3, 20, 20); 
             GL.glRotated(-15, 1, 0, 0);
-            GLU.gluCylinder(obj, 0.2, 0.19, 1.5, 20, 20); //elbow
+            //elbow
+            GLU.gluCylinder(obj, 0.2, 0.19, 1.5, 20, 20); 
             GL.glTranslated(0.0f, 0f, 1.5f);
-            GLU.gluCylinder(obj, 0.2, 0, .5, 20, 20); //elbow
+            //elbow
+            GLU.gluCylinder(obj, 0.2, 0, .5, 20, 20); 
             GL.glPopMatrix();
             //Head
-            GLU.gluCylinder(obj, 0.2, 0.19, 0.5+0.75, 20, 20); //neck
+            //neck
+            GLU.gluCylinder(obj, 0.2, 0.19, 0.5+0.75, 20, 20); 
             GL.glTranslated(0.0f, 0f, 1.2f);
-            GLU.gluSphere(obj, 0.5, 20, 20); //head
+            //head
+            GLU.gluSphere(obj, 0.5, 20, 20); 
             GL.glPopMatrix();
             GL.glPopMatrix();
         }
-        void DrawFloor()
+        void DrawMirror()
         {
+            GL.glPushMatrix();
+            GL.glTranslated(-5, 5, 0);
+            GL.glRotated(70, 1, 0, 0);
             GL.glEnable(GL.GL_LIGHTING);
             GL.glBegin(GL.GL_QUADS);
-            //!!! for blended REFLECTION 
+            /*GL.glColor3d(1, 1, 1);
+            GL.glVertex3d(0.5, 0.5, 0.1f);
+            GL.glVertex3d(0.5, 9.5, 0.1f);
+            GL.glVertex3d(9.5, 9.5, 0.1f);
+            GL.glVertex3d(9.5, 0.5, 0.1f);
+            */
             GL.glColor4d(0, 0, 1, 0.5);
-            GL.glVertex3d(-3, -3, 0);
-            GL.glVertex3d(-3, 3, 0);
-            GL.glVertex3d(3, 3, 0);
-            GL.glVertex3d(3, -3, 0);
+            GL.glVertex3d(0.5, 0.5, 0.1f);
+            GL.glVertex3d(0.5, 9.5, 0.1f);
+            GL.glVertex3d(9.5, 9.5, 0.1f);
+            GL.glVertex3d(9.5, 0.5, 0.1f);
             GL.glEnd();
+            GL.glPopMatrix();
         }
 
         void DrawFigures()
@@ -500,9 +520,6 @@ namespace OpenGL
             shoulderAngle = (int)(45 + 45*Math.Sin((2 * Math.PI) / 100 * sin_index));
             //Now Drawing the scene
             DrawChest();
-            DrawTheWomanInRed();
-
-
 
             GL.glEnable(GL.GL_BLEND);
             GL.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
@@ -514,9 +531,9 @@ namespace OpenGL
             GL.glStencilFunc(GL.GL_ALWAYS, 1, 0xFFFFFFFF); // draw floor always
             GL.glColorMask((byte)GL.GL_FALSE, (byte)GL.GL_FALSE, (byte)GL.GL_FALSE, (byte)GL.GL_FALSE);
             GL.glDisable(GL.GL_DEPTH_TEST); //draw no matter what
-            
+
             //not really draw. just make a hole in the stencil
-            DrawFloor();
+            DrawMirror();
 
             // restore regular settings
             GL.glColorMask((byte)GL.GL_TRUE, (byte)GL.GL_TRUE, (byte)GL.GL_TRUE, (byte)GL.GL_TRUE);
@@ -530,30 +547,21 @@ namespace OpenGL
 
             // draw reflected scene
             GL.glPushMatrix();
-            GL.glScalef(1, 1, -1); //swap on normal of mirror
-            GL.glEnable(GL.GL_CULL_FACE);
-            //only when transparent objects
-            GL.glCullFace(GL.GL_BACK);
-            //DrawFigures();
-            GL.glCullFace(GL.GL_FRONT);
-            //DrawFigures();
-            GL.glDisable(GL.GL_CULL_FACE);
-            //only when transparent objects
-
+            //GL.glScalef(1, 1, -1); //swap on normal of mirror
+            //GL.glScalef(0, -(float)Math.Cos(Math.PI/9), -(float)Math.Sin(Math.PI / 9)); //swap on normal of mirror
+            //DrawTheWomanInRed();
             GL.glPopMatrix();
-
-
-            // really draw floor 
-            //( half-transparent ( see its color's alpha byte)))
-            // in order to see reflected objects 
+            
             GL.glDepthMask((byte)GL.GL_FALSE);
-            DrawFloor();
+            DrawMirror();
             GL.glDepthMask((byte)GL.GL_TRUE);
             // Disable GL.GL_STENCIL_TEST to show All, else it will be cut on GL.GL_STENCIL
             GL.glDisable(GL.GL_STENCIL_TEST);
             //DrawFigures();
+            GL.glScalef(0, -(float)Math.Cos(Math.PI/9), -(float)Math.Sin(Math.PI / 9)); //swap on normal of mirror
+            DrawTheWomanInRed();
             //REFLECTION e    
-
+            
             GL.glFlush();
 
             WGL.wglSwapBuffers(m_uint_DC);
