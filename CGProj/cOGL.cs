@@ -326,11 +326,7 @@ namespace OpenGL
 
             //Now Drawing the scene
             DrawChest();
-
-            //REFLECTION
-            //DrawAxes();
-
-            //REFLECTION b    	
+            
             intOptionB += 10; //for rotation
             intOptionC += 2; //for rotation
             
