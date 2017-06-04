@@ -98,8 +98,8 @@ namespace OpenGL
         }
         void DrawChest()
         {
-            GL.glPushMatrix();
-            GL.glTranslatef(-5.0f, -5.0f, 0.0f);
+            GL.glPushMatrix();// save starting position of drawing
+            GL.glTranslatef(-5.0f, 0.0f, 0.0f);
             GL.glColor3f(1.0f, 1.0f, 1.0f);
             GL.glEnable(GL.GL_TEXTURE_2D);
             GL.glBindTexture(GL.GL_TEXTURE_2D, Textures[0]);
@@ -125,10 +125,11 @@ namespace OpenGL
             GL.glTexCoord2f(1.0f, 0.0f);
             GL.glVertex3d(10, 0, 5);
 
-            //top - other texture
             GL.glEnd();
             GL.glBindTexture(GL.GL_TEXTURE_2D, Textures[1]);
             GL.glBegin(GL.GL_QUADS);
+
+            //top - other texture
             GL.glTexCoord2f(0.0f, 0.0f);
             GL.glVertex3d(0.5, 0.5, 5.1f);
             GL.glTexCoord2f(0.0f, 1.0f);
@@ -181,12 +182,22 @@ namespace OpenGL
             GL.glVertex3d(10, 10, 5);
             GL.glTexCoord2f(1.0f, 0.0f);
             GL.glVertex3d(10, 10, 0);
-            GL.glEnd();
 
-            
-            //lid
+            GL.glEnd();
+            GL.glDisable(GL.GL_TEXTURE_2D);
+            GL.glPopMatrix();
+        }
+        void DrawChestLid()
+        {
+            GL.glPushMatrix();// save starting position of drawing
+
+            GL.glColor3f(1.0f, 1.0f, 1.0f);
+            GL.glEnable(GL.GL_TEXTURE_2D);
+            GL.glBindTexture(GL.GL_TEXTURE_2D, Textures[0]);
+            GL.glTranslatef(-5.0f, 0.0f, 0.0f);
             GL.glTranslatef(0, 10.0f, 5.0f);
             GL.glRotated(70, 1, 0, 0);
+
             GL.glBegin(GL.GL_QUADS);
 
             //bottom
@@ -252,37 +263,37 @@ namespace OpenGL
             GL.glEnd();
             GL.glDisable(GL.GL_TEXTURE_2D);
             GL.glPopMatrix();
-            //GL.glTranslatef(-5.0f, -5.0f, 5.2f);
-            GL.glTranslatef(0.0f, 0.0f, 5.2f);
         }
         void DrawTheWomanInRed()
         {
+            GL.glPushMatrix();// save starting position of drawing
             GL.glColor3f(1.0f, 1.0f, 1.0f);
-            GL.glPushMatrix();
+            //GL.glTranslatef(-5.0f, -5.0f, 5.2f);
+            GL.glTranslatef(0f, 5f, 5.2f);
             GL.glRotated(intOptionC, 0, 0, 1); //rotating the dancer
-            GL.glPushMatrix();
-            //First leg shoe
+            GL.glPushMatrix();// save position of dancer
+            //left shoe
             GL.glRotated(90, 1, 0, 0);
             GLUT.glutSolidTeapot(0.5);
             GL.glRotated(-90, 1, 0, 0);
-            //first leg
+            //left leg
             GLU.gluCylinder(obj, 0.2, 0.4, 4, 20, 20);
             GL.glTranslated(0.4f, 0f, 2f);
-            //second leg
+            //right leg
             GL.glRotated(50, 0, 1, 0);
-            //second leg shoe
+            //right shoe
             GL.glRotated(90, 1, 0, 0);
             GLUT.glutSolidTeapot(0.5);
             GL.glRotated(-90, 1, 0, 0);
-            //lower second leg
+            //lower right leg
             GLU.gluCylinder(obj, 0.2, 0.25, 2, 20, 20);
             GL.glTranslated(0f, 0f, 2f);
             GL.glRotated(-100, 0, 1, 0);
-            //second leg knee
+            //right knee
             GLU.gluSphere(obj, 0.25, 20, 20);
-            GLU.gluCylinder(obj, 0.25, 0.4, 2, 20, 20); //upper second leg
+            //upper second leg
+            GLU.gluCylinder(obj, 0.25, 0.4, 2, 20, 20);
             GL.glPopMatrix(); //reset position to the first leg
-            GL.glPushMatrix();
             //skirt
             GL.glTranslated(0f, 0f, 4f);
             GLU.gluCylinder(obj, 2, 0.75, 1.5, 20, 20); 
@@ -301,46 +312,44 @@ namespace OpenGL
             //right arm
             GLU.gluCylinder(obj, 0.2, 0.19, 1.5, 20, 20);
             GL.glTranslated(0.0f, 0f, 1.5f);
-            //elbow
+            //right elbow
             GLU.gluSphere(obj, 0.3, 20, 20);
             GL.glRotated(-15, 1, 0, 0);
-            //elbow
+            //right forearm
             GLU.gluCylinder(obj, 0.2, 0.19, 1.5, 20, 20);
             GL.glTranslated(0.0f, 0f, 1.5f);
-            //elbow
+            //right hand
             GLU.gluCylinder(obj, 0.2, 0, .5, 20, 20);
             GL.glPopMatrix();
             //Left
             GL.glPushMatrix();
             GL.glTranslated(-0.75f, 0f, 0f);
-            //right shoulder
+            //left shoulder
             GLU.gluSphere(obj, 0.3, 20, 20); 
             GL.glRotated(shoulderAngle, 1, 0, 0);
-            //right arm
+            //left arm
             GLU.gluCylinder(obj, 0.2, 0.19, 1.5, 20, 20); 
             GL.glTranslated(0.0f, 0f, 1.5f);
-            //elbow
+            //left elbow
             GLU.gluSphere(obj, 0.3, 20, 20); 
             GL.glRotated(-15, 1, 0, 0);
-            //elbow
+            //left forearm
             GLU.gluCylinder(obj, 0.2, 0.19, 1.5, 20, 20); 
             GL.glTranslated(0.0f, 0f, 1.5f);
-            //elbow
+            //left hand
             GLU.gluCylinder(obj, 0.2, 0, .5, 20, 20); 
             GL.glPopMatrix();
-            //Head
             //neck
             GLU.gluCylinder(obj, 0.2, 0.19, 0.5+0.75, 20, 20); 
             GL.glTranslated(0.0f, 0f, 1.2f);
             //head
             GLU.gluSphere(obj, 0.5, 20, 20); 
             GL.glPopMatrix();
-            GL.glPopMatrix();
         }
         void DrawMirror()
         {
             GL.glPushMatrix();
-            GL.glTranslated(-5, 5, 0);
+            GL.glTranslated(-5, 10, 5);
             GL.glRotated(70, 1, 0, 0);
             GL.glEnable(GL.GL_LIGHTING);
             GL.glBegin(GL.GL_QUADS);
@@ -351,10 +360,10 @@ namespace OpenGL
             GL.glVertex3d(9.5, 0.5, 0.1f);
             */
             GL.glColor4d(0, 0, 1, 0.5);
-            GL.glVertex3d(0.5, 0.5, 0.1f);
-            GL.glVertex3d(0.5, 9.5, 0.1f);
-            GL.glVertex3d(9.5, 9.5, 0.1f);
-            GL.glVertex3d(9.5, 0.5, 0.1f);
+            GL.glVertex3d(0.5, 0.5, 0.01f);
+            GL.glVertex3d(0.5, 9.5, 0.01f);
+            GL.glVertex3d(9.5, 9.5, 0.01f);
+            GL.glVertex3d(9.5, 0.5, 0.01f);
             GL.glEnd();
             GL.glPopMatrix();
         }
@@ -413,7 +422,6 @@ namespace OpenGL
         public float yAngle = 0.0f;
         public float xAngle = 0.0f;
         public int intOptionC = 0;
-        public int prev_shoulderAngle = 20;
         public int shoulderAngle = 20;
         public int sin_index = 0;
         double[] AccumulatedRotationsTraslations = new double[16];
@@ -513,55 +521,63 @@ namespace OpenGL
 
             //end of - Handeling of translate rotate mathematically correct
             
-            intOptionB += 10; //for rotation
-            intOptionC += 2; //for rotation
+            //Animation Values
+            intOptionB += 10;   //dancer rotation
+            intOptionC += 2;    //for rotation
             sin_index++;
-            prev_shoulderAngle = shoulderAngle;
+                                //for arms animation
             shoulderAngle = (int)(45 + 45*Math.Sin((2 * Math.PI) / 100 * sin_index));
-            //Now Drawing the scene
-            DrawChest();
 
+            //Settings for drawing semi transparent stuff
             GL.glEnable(GL.GL_BLEND);
             GL.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
 
-
-            //only floor, draw only to STENCIL buffer
+            //making a stencil
             GL.glEnable(GL.GL_STENCIL_TEST);
             GL.glStencilOp(GL.GL_REPLACE, GL.GL_REPLACE, GL.GL_REPLACE);
-            GL.glStencilFunc(GL.GL_ALWAYS, 1, 0xFFFFFFFF); // draw floor always
+            GL.glStencilFunc(GL.GL_ALWAYS, 1, 0xFFFFFFFF);
             GL.glColorMask((byte)GL.GL_FALSE, (byte)GL.GL_FALSE, (byte)GL.GL_FALSE, (byte)GL.GL_FALSE);
             GL.glDisable(GL.GL_DEPTH_TEST); //draw no matter what
-
-            //not really draw. just make a hole in the stencil
+            //not really draw. just makeing a hole in the stencil
             DrawMirror();
 
-            // restore regular settings
+            //restore regular settings
             GL.glColorMask((byte)GL.GL_TRUE, (byte)GL.GL_TRUE, (byte)GL.GL_TRUE, (byte)GL.GL_TRUE);
             GL.glEnable(GL.GL_DEPTH_TEST);
 
-            // reflection is drawn only where STENCIL buffer value equal to 1
+            //setting stencil test (anything outside is clipped)
             GL.glStencilFunc(GL.GL_EQUAL, 1, 0xFFFFFFFF);
             GL.glStencilOp(GL.GL_KEEP, GL.GL_KEEP, GL.GL_KEEP);
-
             GL.glEnable(GL.GL_STENCIL_TEST);
 
-            // draw reflected scene
+            //draw reflected scene
             GL.glPushMatrix();
-            //GL.glScalef(1, 1, -1); //swap on normal of mirror
-            //GL.glScalef(0, -(float)Math.Cos(Math.PI/9), -(float)Math.Sin(Math.PI / 9)); //swap on normal of mirror
-            //DrawTheWomanInRed();
-            GL.glPopMatrix();
-            
-            GL.glDepthMask((byte)GL.GL_FALSE);
-            DrawMirror();
-            GL.glDepthMask((byte)GL.GL_TRUE);
-            // Disable GL.GL_STENCIL_TEST to show All, else it will be cut on GL.GL_STENCIL
-            GL.glDisable(GL.GL_STENCIL_TEST);
-            //DrawFigures();
-            GL.glScalef(0, -(float)Math.Cos(Math.PI/9), -(float)Math.Sin(Math.PI / 9)); //swap on normal of mirror
+            GL.glTranslated(0f, 10f, 5f);   //moving into the mirror
+            GL.glRotated(-40, 1, 0, 0);    //rotating according to mirror angle
+            GL.glTranslated(0f, 10f, -5f);   //moving into the mirror
+            GL.glScalef(1, -1, 1);
+            DrawChest();
             DrawTheWomanInRed();
-            //REFLECTION e    
-            
+            GL.glPopMatrix();
+
+            GL.glDisable(GL.GL_STENCIL_TEST); //no need for the stencil anymore
+
+            //draw the mirror no matter what
+            //no need to disable depth mask / depth test
+            //since reflection is far from mirror
+            //also. if we disable. the mirror will be
+            //overwritten by the chest lid in the z buffer
+            //GL.glDepthMask((byte)GL.GL_FALSE);
+            //GL.glDisable(GL.GL_DEPTH_TEST);
+            DrawMirror();
+            //GL.glEnable(GL.GL_DEPTH_TEST);
+            //GL.glDepthMask((byte)GL.GL_TRUE);
+
+            //NOW draw the scene
+            DrawChest();
+            DrawChestLid();
+            DrawTheWomanInRed();
+
             GL.glFlush();
 
             WGL.wglSwapBuffers(m_uint_DC);
@@ -670,13 +686,10 @@ namespace OpenGL
             GL.glShadeModel(GL.GL_SMOOTH);
             GLU.gluPerspective(45.0, 1.0, 0.4, 100.0);
 
-
             GL.glMatrixMode(GL.GL_MODELVIEW);
             GL.glLoadIdentity();
 
-            //! TEXTURE 1a 
             GenerateTextures();
-            //! TEXTURE 1b 
 
             //save the current MODELVIEW Matrix (now it is Identity)
             GL.glGetDoublev(GL.GL_MODELVIEW_MATRIX, AccumulatedRotationsTraslations);
