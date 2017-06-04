@@ -98,12 +98,10 @@ namespace OpenGL
         }
         void DrawChest()
         {
-            GL.glEnable(GL.GL_LIGHTING);
             GL.glColor3f(1.0f, 1.0f, 1.0f);
             GL.glEnable(GL.GL_TEXTURE_2D);
             GL.glBindTexture(GL.GL_TEXTURE_2D, Textures[0]);
             GL.glBegin(GL.GL_QUADS);
-            GL.glTranslated(-5, -5, 0);
             //bottom
             GL.glTexCoord2f(0.0f, 0.0f);
             GL.glVertex3d(0, 0, 0);
@@ -159,10 +157,8 @@ namespace OpenGL
             GL.glTexCoord2f(1.0f, 0.0f);
             GL.glVertex3d(10, 10, 0);
 
-            GL.glTranslated(5, 5, 0);
             GL.glEnd();
             GL.glDisable(GL.GL_TEXTURE_2D);
-
         }
         void DrawFloor()
         {
@@ -215,12 +211,7 @@ namespace OpenGL
             GL.glColor3d(0, 1, 1);
             GL.glRotated(intOptionB, 1, 0, 0);
             //TODO: draw dancer
-            GL.glRotated(-intOptionB, 1, 0, 0); //not neccessary
-            GL.glRotated(-90, 1, 0, 0);     //not neccessary
-            GL.glTranslated(-1, -2, -1.5);  //not neccessary 
-
-            GL.glRotated(intOptionB, 0, 0, 1); //rotate both not neccessary
-
+            
             GL.glPopMatrix();
         }
 
@@ -256,7 +247,7 @@ namespace OpenGL
 
             GL.glLoadIdentity();
 
-            // not trivial
+            //Handeling of translate rotate - mathematically correct
             double[] ModelVievMatrixBeforeSpecificTransforms = new double[16];
             double[] CurrentRotationTraslation = new double[16];
 
@@ -330,17 +321,21 @@ namespace OpenGL
             //multiply it by KeyCode defined AccumulatedRotationsTraslations matrix
             GL.glMultMatrixd(AccumulatedRotationsTraslations);
 
+            //end of - Handeling of translate rotate mathematically correct
+            
 
+            //Now drawing scene
             DrawChest();
 
-            //REFLECTION//DrawAxes();
+            //REFLECTION
+            //DrawAxes();
 
             //REFLECTION b    	
             intOptionB += 10; //for rotation
             intOptionC += 2; //for rotation
-            // without REFLECTION was only DrawAll(); 
-            // now
-
+            
+      
+            
             GL.glEnable(GL.GL_BLEND);
             GL.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
 
@@ -350,8 +345,9 @@ namespace OpenGL
             GL.glStencilOp(GL.GL_REPLACE, GL.GL_REPLACE, GL.GL_REPLACE);
             GL.glStencilFunc(GL.GL_ALWAYS, 1, 0xFFFFFFFF); // draw floor always
             GL.glColorMask((byte)GL.GL_FALSE, (byte)GL.GL_FALSE, (byte)GL.GL_FALSE, (byte)GL.GL_FALSE);
-            GL.glDisable(GL.GL_DEPTH_TEST);
-
+            GL.glDisable(GL.GL_DEPTH_TEST); //draw no matter what
+            
+            //not really draw. just make a hole in the stencil
             DrawFloor();
 
             // restore regular settings
@@ -366,13 +362,16 @@ namespace OpenGL
 
             // draw reflected scene
             GL.glPushMatrix();
-            GL.glScalef(1, 1, -1); //swap on Z axis
+            GL.glScalef(1, 1, -1); //swap on normal of mirror
             GL.glEnable(GL.GL_CULL_FACE);
+            //only when transparent objects
             GL.glCullFace(GL.GL_BACK);
             DrawFigures();
             GL.glCullFace(GL.GL_FRONT);
             DrawFigures();
             GL.glDisable(GL.GL_CULL_FACE);
+            //only when transparent objects
+
             GL.glPopMatrix();
 
 
