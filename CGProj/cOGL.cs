@@ -98,10 +98,13 @@ namespace OpenGL
         }
         void DrawChest()
         {
+            GL.glPushMatrix();
+            GL.glTranslatef(-5.0f, -5.0f, 0.0f);
             GL.glColor3f(1.0f, 1.0f, 1.0f);
             GL.glEnable(GL.GL_TEXTURE_2D);
             GL.glBindTexture(GL.GL_TEXTURE_2D, Textures[0]);
             GL.glBegin(GL.GL_QUADS);
+            
             //bottom
             GL.glTexCoord2f(0.0f, 0.0f);
             GL.glVertex3d(0, 0, 0);
@@ -111,54 +114,217 @@ namespace OpenGL
             GL.glVertex3d(10, 10, 0);
             GL.glTexCoord2f(1.0f, 0.0f);
             GL.glVertex3d(10, 0, 0);
+            
             //top
             GL.glTexCoord2f(0.0f, 0.0f);
-            GL.glVertex3d(0, 0, 10);
+            GL.glVertex3d(0, 0, 5);
             GL.glTexCoord2f(0.0f, 1.0f);
-            GL.glVertex3d(0, 10, 10);
+            GL.glVertex3d(0, 10, 5);
             GL.glTexCoord2f(1.0f, 1.0f);
-            GL.glVertex3d(10, 10, 10);
+            GL.glVertex3d(10, 10, 5);
             GL.glTexCoord2f(1.0f, 0.0f);
-            GL.glVertex3d(10, 0, 10);
+            GL.glVertex3d(10, 0, 5);
+
+            //top - other texture
+            GL.glEnd();
+            GL.glBindTexture(GL.GL_TEXTURE_2D, Textures[1]);
+            GL.glBegin(GL.GL_QUADS);
+            GL.glTexCoord2f(0.0f, 0.0f);
+            GL.glVertex3d(0.5, 0.5, 5.1f);
+            GL.glTexCoord2f(0.0f, 1.0f);
+            GL.glVertex3d(0.5, 9.5, 5.1f);
+            GL.glTexCoord2f(1.0f, 1.0f);
+            GL.glVertex3d(9.5, 9.5, 5.1f);
+            GL.glTexCoord2f(1.0f, 0.0f);
+            GL.glVertex3d(9.5, 0.5, 5.1f);
+
+            GL.glEnd();
+            GL.glBindTexture(GL.GL_TEXTURE_2D, Textures[0]);
+            GL.glBegin(GL.GL_QUADS);
+
             //front
             GL.glTexCoord2f(0.0f, 0.0f);
             GL.glVertex3d(0, 10, 0);
             GL.glTexCoord2f(0.0f, 1.0f);
-            GL.glVertex3d(0, 10, 10);
+            GL.glVertex3d(0, 10, 5);
             GL.glTexCoord2f(1.0f, 1.0f);
-            GL.glVertex3d(10, 10, 10);
+            GL.glVertex3d(10, 10, 5);
             GL.glTexCoord2f(1.0f, 0.0f);
             GL.glVertex3d(10, 10, 0);
+
             //back
             GL.glTexCoord2f(0.0f, 0.0f);
             GL.glVertex3d(0, 0, 0);
             GL.glTexCoord2f(0.0f, 1.0f);
-            GL.glVertex3d(0, 0, 10);
+            GL.glVertex3d(0, 0, 5);
             GL.glTexCoord2f(1.0f, 1.0f);
-            GL.glVertex3d(10, 0, 10);
+            GL.glVertex3d(10, 0, 5);
             GL.glTexCoord2f(1.0f, 0.0f);
             GL.glVertex3d(10, 0, 0);
+
             //left
             GL.glTexCoord2f(0.0f, 0.0f);
             GL.glVertex3d(0, 0, 0);
             GL.glTexCoord2f(0.0f, 1.0f);
-            GL.glVertex3d(0, 0, 10);
+            GL.glVertex3d(0, 0, 5);
             GL.glTexCoord2f(1.0f, 1.0f);
-            GL.glVertex3d(0, 10, 10);
+            GL.glVertex3d(0, 10, 5);
             GL.glTexCoord2f(1.0f, 0.0f);
             GL.glVertex3d(0, 10, 0);
+
             //right
             GL.glTexCoord2f(0.0f, 0.0f);
             GL.glVertex3d(10, 0, 0);
             GL.glTexCoord2f(0.0f, 1.0f);
-            GL.glVertex3d(10, 0, 10);
+            GL.glVertex3d(10, 0, 5);
             GL.glTexCoord2f(1.0f, 1.0f);
-            GL.glVertex3d(10, 10, 10);
+            GL.glVertex3d(10, 10, 5);
             GL.glTexCoord2f(1.0f, 0.0f);
             GL.glVertex3d(10, 10, 0);
+            GL.glEnd();
+
+            
+            //lid
+            GL.glTranslatef(0, 10.0f, 5.0f);
+            GL.glRotated(70, 1, 0, 0);
+            GL.glBegin(GL.GL_QUADS);
+
+            //bottom
+            GL.glTexCoord2f(0.0f, 0.0f);
+            GL.glVertex3d(0, 0, -2);
+            GL.glTexCoord2f(0.0f, 1.0f);
+            GL.glVertex3d(0, 10, -2);
+            GL.glTexCoord2f(1.0f, 1.0f);
+            GL.glVertex3d(10, 10, -2);
+            GL.glTexCoord2f(1.0f, 0.0f);
+            GL.glVertex3d(10, 0, -2);
+
+            //top
+            GL.glTexCoord2f(0.0f, 0.0f);
+            GL.glVertex3d(0, 0, 0);
+            GL.glTexCoord2f(0.0f, 1.0f);
+            GL.glVertex3d(0, 10, 0);
+            GL.glTexCoord2f(1.0f, 1.0f);
+            GL.glVertex3d(10, 10, 0);
+            GL.glTexCoord2f(1.0f, 0.0f);
+            GL.glVertex3d(10, 0, 0);
+
+            //front
+            GL.glTexCoord2f(0.0f, 0.0f);
+            GL.glVertex3d(0, 10, -2);
+            GL.glTexCoord2f(0.0f, 1.0f);
+            GL.glVertex3d(0, 10, 0);
+            GL.glTexCoord2f(1.0f, 1.0f);
+            GL.glVertex3d(10, 10, 0);
+            GL.glTexCoord2f(1.0f, 0.0f);
+            GL.glVertex3d(10, 10, -2);
+
+            //back
+            GL.glTexCoord2f(0.0f, 0.0f);
+            GL.glVertex3d(0, 0, -2);
+            GL.glTexCoord2f(0.0f, 1.0f);
+            GL.glVertex3d(0, 0, 0);
+            GL.glTexCoord2f(1.0f, 1.0f);
+            GL.glVertex3d(10, 0, 0);
+            GL.glTexCoord2f(1.0f, 0.0f);
+            GL.glVertex3d(10, 0, -2);
+
+            //left
+            GL.glTexCoord2f(0.0f, 0.0f);
+            GL.glVertex3d(0, 0, -2);
+            GL.glTexCoord2f(0.0f, 1.0f);
+            GL.glVertex3d(0, 0, 0);
+            GL.glTexCoord2f(1.0f, 1.0f);
+            GL.glVertex3d(0, 10, 0);
+            GL.glTexCoord2f(1.0f, 0.0f);
+            GL.glVertex3d(0, 10, -2);
+
+            //right
+            GL.glTexCoord2f(0.0f, 0.0f);
+            GL.glVertex3d(10, 0, -2);
+            GL.glTexCoord2f(0.0f, 1.0f);
+            GL.glVertex3d(10, 0, 0);
+            GL.glTexCoord2f(1.0f, 1.0f);
+            GL.glVertex3d(10, 10, 0);
+            GL.glTexCoord2f(1.0f, 0.0f);
+            GL.glVertex3d(10, 10, -2);
+
+            
 
             GL.glEnd();
             GL.glDisable(GL.GL_TEXTURE_2D);
+            GL.glPopMatrix();
+            //GL.glTranslatef(-5.0f, -5.0f, 5.2f);
+            GL.glTranslatef(0.0f, 0.0f, 5.2f);
+        }
+        void DrawTheWomanInRed()
+        {
+            GL.glPushMatrix();
+            GL.glRotated(intOptionC, 0, 0, 1); //rotating the dancer
+            GL.glPushMatrix();
+            //First leg shoe
+            GL.glRotated(90, 1, 0, 0);
+            GLUT.glutSolidTeapot(0.5);
+            GL.glRotated(-90, 1, 0, 0);
+            //first leg
+            GLU.gluCylinder(obj, 0.2, 0.4, 4, 20, 20);
+            GL.glTranslated(0.4f, 0f, 2f);
+            //second leg
+            GL.glRotated(50, 0, 1, 0);
+            //second leg shoe
+            GL.glRotated(90, 1, 0, 0);
+            GLUT.glutSolidTeapot(0.5);
+            GL.glRotated(-90, 1, 0, 0);
+            //lower second leg
+            GLU.gluCylinder(obj, 0.2, 0.25, 2, 20, 20);
+            GL.glTranslated(0f, 0f, 2f);
+            GL.glRotated(-100, 0, 1, 0);
+            //second leg knee
+            GLU.gluSphere(obj, 0.25, 20, 20);
+            GLU.gluCylinder(obj, 0.25, 0.4, 2, 20, 20); //upper second leg
+            GL.glPopMatrix(); //reset position to the first leg
+            GL.glPushMatrix();
+            //skirt
+            GL.glTranslated(0f, 0f, 4f);
+            GLU.gluCylinder(obj, 2, 0.75, 1.5, 20, 20); 
+            GL.glTranslated(0f, 0f, 1.5f);
+            //upperbody
+            GLU.gluCylinder(obj, 0.75, 0.75, 2.5, 20, 20); 
+            GL.glTranslated(0f, 0f, 2.5f);
+            //upper blob
+            GLU.gluSphere(obj, 0.75, 20, 20); 
+            //Right
+            GL.glPushMatrix();
+            GL.glTranslated(0.75f, 0f, 0f);
+            GLU.gluSphere(obj, 0.3, 20, 20); //right shoulder
+            GL.glRotated(shoulderAngle, 1, 0, 0);
+            GLU.gluCylinder(obj, 0.2, 0.19, 1.5, 20, 20); //right arm
+            GL.glTranslated(0.0f, 0f, 1.5f);
+            GLU.gluSphere(obj, 0.3, 20, 20); //elbow
+            GL.glRotated(-15, 1, 0, 0);
+            GLU.gluCylinder(obj, 0.2, 0.19, 1.5, 20, 20); //elbow
+            GL.glTranslated(0.0f, 0f, 1.5f);
+            GLU.gluCylinder(obj, 0.2, 0, .5, 20, 20); //elbow
+            GL.glPopMatrix();
+            //Left
+            GL.glPushMatrix();
+            GL.glTranslated(-0.75f, 0f, 0f);
+            GLU.gluSphere(obj, 0.3, 20, 20); //right shoulder
+            GL.glRotated(shoulderAngle, 1, 0, 0);
+            GLU.gluCylinder(obj, 0.2, 0.19, 1.5, 20, 20); //right arm
+            GL.glTranslated(0.0f, 0f, 1.5f);
+            GLU.gluSphere(obj, 0.3, 20, 20); //elbow
+            GL.glRotated(-15, 1, 0, 0);
+            GLU.gluCylinder(obj, 0.2, 0.19, 1.5, 20, 20); //elbow
+            GL.glTranslated(0.0f, 0f, 1.5f);
+            GLU.gluCylinder(obj, 0.2, 0, .5, 20, 20); //elbow
+            GL.glPopMatrix();
+            //Head
+            GLU.gluCylinder(obj, 0.2, 0.19, 0.5+0.75, 20, 20); //neck
+            GL.glTranslated(0.0f, 0f, 1.2f);
+            GLU.gluSphere(obj, 0.5, 20, 20); //head
+            GL.glPopMatrix();
+            GL.glPopMatrix();
         }
         void DrawFloor()
         {
@@ -203,6 +369,7 @@ namespace OpenGL
             GL.glTranslated(0, -0.5, 1);
             GL.glRotated(intOptionC, 1, 1, 1);
             GLUT.glutSolidCube(1);
+            GLUT.glutSolidCube(1);
             GL.glRotated(-intOptionC, 1, 1, 1);
             GL.glTranslated(0, -0.5, -1);
 
@@ -226,6 +393,9 @@ namespace OpenGL
         public float yAngle = 0.0f;
         public float xAngle = 0.0f;
         public int intOptionC = 0;
+        public int prev_shoulderAngle = 20;
+        public int shoulderAngle = 20;
+        public int sin_index = 0;
         double[] AccumulatedRotationsTraslations = new double[16];
 
         public void Draw()
@@ -323,15 +493,17 @@ namespace OpenGL
 
             //end of - Handeling of translate rotate mathematically correct
             
-
-            //Now Drawing the scene
-            DrawChest();
-            
             intOptionB += 10; //for rotation
             intOptionC += 2; //for rotation
-            
-      
-            
+            sin_index++;
+            prev_shoulderAngle = shoulderAngle;
+            shoulderAngle = (int)(45 + 45*Math.Sin((2 * Math.PI) / 100 * sin_index));
+            //Now Drawing the scene
+            DrawChest();
+            DrawTheWomanInRed();
+
+
+
             GL.glEnable(GL.GL_BLEND);
             GL.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
 
@@ -362,9 +534,9 @@ namespace OpenGL
             GL.glEnable(GL.GL_CULL_FACE);
             //only when transparent objects
             GL.glCullFace(GL.GL_BACK);
-            DrawFigures();
+            //DrawFigures();
             GL.glCullFace(GL.GL_FRONT);
-            DrawFigures();
+            //DrawFigures();
             GL.glDisable(GL.GL_CULL_FACE);
             //only when transparent objects
 
@@ -379,7 +551,7 @@ namespace OpenGL
             GL.glDepthMask((byte)GL.GL_TRUE);
             // Disable GL.GL_STENCIL_TEST to show All, else it will be cut on GL.GL_STENCIL
             GL.glDisable(GL.GL_STENCIL_TEST);
-            DrawFigures();
+            //DrawFigures();
             //REFLECTION e    
 
             GL.glFlush();
@@ -508,7 +680,7 @@ namespace OpenGL
         void GenerateTextures()
         {
             GL.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
-            string[] imagesName ={ "chestbg.jpg","Flower.bmp","image.bmp"};
+            string[] imagesName ={ "chestbg.jpg", "chestbg2.jpg", "Flower.bmp","image.bmp"};
             GL.glGenTextures(imagesName.Length, Textures);
             for (int i = 0; i < imagesName.Length; i++)
             {
