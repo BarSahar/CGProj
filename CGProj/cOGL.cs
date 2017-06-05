@@ -567,6 +567,7 @@ namespace OpenGL
             //since reflection is far from mirror
             //also. if we disable. the mirror will be
             //overwritten by the chest lid in the z buffer
+
             //GL.glDepthMask((byte)GL.GL_FALSE);
             //GL.glDisable(GL.GL_DEPTH_TEST);
             DrawMirror();
