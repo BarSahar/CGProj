@@ -133,10 +133,11 @@ namespace CGProj
                         if (cGL.mirrorAngle < 100)
                             cGL.mirrorAngle += 5;
                     }
-                    else if (cGL.mirrorAngle > 0)
+                    else if (cGL.mirrorAngle > 10)
                     {
                         cGL.mirrorAngle -= 5;
                     }
+                    cGL.updateShadowPlanes();
                     break;
             }
             cGL.Draw();
@@ -165,6 +166,9 @@ namespace CGProj
 
         private void timer1_Tick(object sender, EventArgs e)
         {
+            cGL.intOptionC = 0;
+            cGL.intOptionB += 2;    //dancer rotation
+            cGL.sin_index++;
             cGL.Draw();
         }
 

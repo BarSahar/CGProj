@@ -21,31 +21,14 @@ namespace OpenGL
             p = pb;
             Width = p.Width;
             Height = p.Height;
-            /////TODO: delete this
-            //GL.glVertex3d(0, 0, 5);
-            //GL.glVertex3d(0, 10, 5);
-            //GL.glVertex3d(10, 10, 5);
-            /////
-            ground[0, 0] = 10f;
-            ground[0, 1] = 10f;
-            ground[0, 2] = 5.1f;
-
-            ground[1, 0] = 0f;
-            ground[1, 1] = 10f;
-            ground[1, 2] = 5.1f;
-
-            ground[2, 0] = 0f;
-            ground[2, 1] = 0f;
-            ground[2, 2] = 5.1f;
-            
+            updateShadowPlanes();
 
             InitializeGL();
             obj = GLU.gluNewQuadric(); //!!!
 
-            System.Media.SoundPlayer player = new System.Media.SoundPlayer();
-            player.SoundLocation = "song.wav";
-            player.PlayLooping();
-            
+            //System.Media.SoundPlayer player = new System.Media.SoundPlayer();
+            //player.SoundLocation = "../../res/song.wav";
+            //player.PlayLooping();
         }
 
         ~cOGL()
@@ -75,17 +58,39 @@ namespace OpenGL
         }
 
 
-        
+        public void updateShadowPlanes()
+        {
+            //the chest plane - elevated by 0.1 so to not conflict with the chest
+            ground[0, 0] = 10f;     //y
+            ground[0, 1] = 10f;     //x
+            ground[0, 2] = 5.1f;    //z
+
+            ground[1, 0] = 0f;
+            ground[1, 1] = 10f;
+            ground[1, 2] = 5.1f;
+
+            ground[2, 0] = 0f;
+            ground[2, 1] = 0f;
+            ground[2, 2] = 5.1f;
+            //the lid plane - elevated by 0.1 towards the camera (the minus) so to not conflict with the chest
+            lid[0, 0] = 10f;
+            lid[0, 1] = 10f + (float)Math.Cos(((float)mirrorAngle * Math.PI / 180)) * 10f - (float)Math.Cos(((float)(90-mirrorAngle) * Math.PI / 180)) * 0.01f;
+            lid[0, 2] = 5.01f + (float)Math.Sin(((float)mirrorAngle * Math.PI / 180)) * 10f - (float)Math.Sin(((float)(90 - mirrorAngle) * Math.PI / 180)) * 0.01f;
+
+            lid[1, 0] = 0f;
+            lid[1, 1] = 10f + (float)Math.Cos(((float)mirrorAngle * Math.PI / 180)) * 10f - (float)Math.Cos(((float)(90 - mirrorAngle) * Math.PI / 180)) * 0.01f;
+            lid[1, 2] = 5.01f + (float)Math.Sin(((float)mirrorAngle * Math.PI / 180)) * 10f - (float)Math.Sin(((float)(90 - mirrorAngle) * Math.PI / 180)) * 0.01f;
+
+            lid[2, 0] = 0f;
+            lid[2, 1] = 10f - (float)Math.Cos(((float)(90 - mirrorAngle) * Math.PI / 180)) * 0.01f;
+            lid[2, 2] = 5.01f - (float)Math.Sin(((float)(90 - mirrorAngle) * Math.PI / 180)) * 0.01f;
+        }
         void DrawHoleInAPit()
         {
             GL.glBegin(GL.GL_QUADS);
-            GL.glTexCoord2f(0.0f, 0.0f);
             GL.glVertex3d(-5, 0, 5);
-            GL.glTexCoord2f(0.0f, 1.0f);
             GL.glVertex3d(-5, 10, 5);
-            GL.glTexCoord2f(1.0f, 1.0f);
             GL.glVertex3d(5, 10, 5);
-            GL.glTexCoord2f(1.0f, 0.0f);
             GL.glVertex3d(5, 0, 5);
             GL.glEnd();
         }
@@ -181,6 +186,23 @@ namespace OpenGL
             GL.glDisable(GL.GL_TEXTURE_2D);
             GL.glPopMatrix();
         }
+        void DrawChestLidTop()
+        {
+            GL.glPushMatrix();// save starting position of drawing
+
+            GL.glColor3f(1.0f, 1.0f, 1.0f);
+            GL.glTranslatef(-5.0f, 0.0f, 0.0f);
+            GL.glTranslatef(0, 10.0f, 5.0f);
+            GL.glRotated(mirrorAngle, 1, 0, 0);
+            GL.glBegin(GL.GL_QUADS);            
+            //top
+            GL.glVertex3d(0, 0, 0);
+            GL.glVertex3d(0, 10, 0);
+            GL.glVertex3d(10, 10, 0);
+            GL.glVertex3d(10, 0, 0);
+            GL.glEnd();
+            GL.glPopMatrix();
+        }
         void DrawChestLid()
         {
             GL.glPushMatrix();// save starting position of drawing
@@ -262,13 +284,13 @@ namespace OpenGL
         {
             GL.glPushMatrix();// save starting position of drawing
             if (shadow ==true)
-                GL.glColor3f(0.0f, 0.0f, 0.0f);
+                GL.glColor4f(0.0f, 0.0f, 0.0f, 1.0f);
             else
                 GL.glColor3f(1.0f, 1.0f, 1.0f);
 
             //GL.glTranslatef(-5.0f, -5.0f, 5.2f);
             GL.glTranslatef(0f, 5f, 5.2f);
-            GL.glRotated(intOptionC, 0, 0, 1); //rotating the dancer
+            GL.glRotated(intOptionB, 0, 0, 1); //rotating the dancer
             GL.glPushMatrix();// save position of dancer
             //left shoe
             if (shadow == false)
@@ -398,17 +420,12 @@ namespace OpenGL
             GL.glRotated(mirrorAngle, 1, 0, 0);
             GL.glEnable(GL.GL_LIGHTING);
             GL.glBegin(GL.GL_QUADS);
-            /*GL.glColor3d(1, 1, 1);
-            GL.glVertex3d(0.5, 0.5, 0.1f);
-            GL.glVertex3d(0.5, 9.5, 0.1f);
-            GL.glVertex3d(9.5, 9.5, 0.1f);
-            GL.glVertex3d(9.5, 0.5, 0.1f);
-            */
+            
             GL.glColor4d(0, 0, 1, 0.5);
-            GL.glVertex3d(0.5, 0.5, 0.01f);
-            GL.glVertex3d(0.5, 9.5, 0.01f);
-            GL.glVertex3d(9.5, 9.5, 0.01f);
-            GL.glVertex3d(9.5, 0.5, 0.01f);
+            GL.glVertex3d(0.5, 0.5, 0.05f);
+            GL.glVertex3d(0.5, 9.5, 0.05f);
+            GL.glVertex3d(9.5, 9.5, 0.05f);
+            GL.glVertex3d(9.5, 0.5, 0.05f);
             GL.glEnd();
             GL.glPopMatrix();
         }
@@ -525,12 +542,13 @@ namespace OpenGL
             GL.glMultMatrixd(AccumulatedRotationsTraslations);
 
             //end of - Handeling of translate rotate mathematically correct
-            
+
             //Animation Values
-            intOptionB += 10;   
-            intOptionC += 2;    //dancer rotation
-            sin_index++;
-                                //for arms animation
+            //intOptionC += 2;
+            //intOptionB += 2;    //dancer rotation
+            //sin_index++;
+
+            //for arms animation
             shoulderAngle = (int)(45 + 45*Math.Sin((2 * Math.PI) / 100 * sin_index));
 
             //Settings for drawing semi transparent stuff
@@ -603,6 +621,7 @@ namespace OpenGL
             GL.glDisable(GL.GL_DEPTH_TEST); //draw no matter what
             //making a hole in the stencil
             DrawHoleInAPit(); //draws only the top of the chest
+            DrawChestLidTop(); //draws only the lid of the chest
 
             //restore regular settings
             GL.glColorMask((byte)GL.GL_TRUE, (byte)GL.GL_TRUE, (byte)GL.GL_TRUE, (byte)GL.GL_TRUE);
@@ -613,21 +632,29 @@ namespace OpenGL
             GL.glStencilOp(GL.GL_KEEP, GL.GL_KEEP, GL.GL_KEEP);
             GL.glEnable(GL.GL_STENCIL_TEST);
             
-            //draw Shadow
+            //draw Shadow - floor
             GL.glPushMatrix();
             MakeShadowMatrix(ground); //results in cubeXform - shadow matrix 
             GL.glMultMatrixf(cubeXform); //flattning everything against chest top plain
             DrawTheWomanInRed(true); //draws dancer in BLACK
             GL.glPopMatrix();
+            //draw Shadow - lid
+            GL.glPushMatrix();
+            MakeShadowMatrix(lid); //results in cubeXform - shadow matrix 
+            GL.glMultMatrixf(cubeXform); //flattning everything against chest top plain
+            DrawTheWomanInRed(true); //draws dancer in BLACK
+
+            GL.glPopMatrix();
             GL.glDisable(GL.GL_LIGHTING);
-            
+            GL.glDisable(GL.GL_STENCIL_TEST);
             GL.glFlush();
 
             WGL.wglSwapBuffers(m_uint_DC);
 
         }
-        float[,] ground = new float[3, 3];//{ { 1, 1, -0.5 }, { 0, 1, -0.5 }, { 1, 0, -0.5 } };
-        
+        static float[,] ground = new float[3, 3];
+        static float[,] lid = new float[3, 3];//{ { 1, 1, -0.5 }, { 0, 1, -0.5 }, { 1, 0, -0.5 } };
+
         const int x = 0;
         const int y = 1;
         const int z = 2;
@@ -877,7 +904,7 @@ namespace OpenGL
             GL.glGenTextures(imagesName.Length, Textures);
             for (int i = 0; i < imagesName.Length; i++)
             {
-                Bitmap image = new Bitmap(imagesName[i]);
+                Bitmap image = new Bitmap("../../res/"+imagesName[i]);
                 image.RotateFlip(RotateFlipType.RotateNoneFlipY); //Y axis in Windows is directed downwards, while in OpenGL-upwards
                 System.Drawing.Imaging.BitmapData bitmapdata;
                 Rectangle rect = new Rectangle(0, 0, image.Width, image.Height);
