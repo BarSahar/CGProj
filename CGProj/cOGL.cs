@@ -574,11 +574,13 @@ namespace OpenGL
             //GL.glEnable(GL.GL_DEPTH_TEST);
             //GL.glDepthMask((byte)GL.GL_TRUE);
 
+            GL.glLightfv(GL.GL_LIGHT0, GL.GL_POSITION, pos);
+            GL.glEnable(GL.GL_LIGHTING);
             //NOW draw the scene
             DrawChest();
             DrawChestLid();
             DrawTheWomanInRed();
-
+            GL.glDisable(GL.GL_LIGHTING);
             GL.glFlush();
 
             WGL.wglSwapBuffers(m_uint_DC);
