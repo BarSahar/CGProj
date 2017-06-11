@@ -127,6 +127,17 @@ namespace CGProj
                         cGL.intOptionC = -3;
                     }
                     break;
+                case 7: //lid angle!!
+                    if (pos > oldPos[i - 1])
+                    {
+                        if (cGL.mirrorAngle < 100)
+                            cGL.mirrorAngle += 5;
+                    }
+                    else if (cGL.mirrorAngle > 0)
+                    {
+                        cGL.mirrorAngle -= 5;
+                    }
+                    break;
             }
             cGL.Draw();
             oldPos[i - 1] = pos;
@@ -138,7 +149,16 @@ namespace CGProj
             cGL.intOptionC = 0;
             HScrollBar hb = (HScrollBar)sender;
             int n = int.Parse(hb.Name.Substring(10));
-            cGL.ScrollValue[n - 1] = (hb.Value - 100) / 10.0f;
+            if (n > 10) {
+                //lighting
+                if (n == 13) //Z axis
+                    cGL.ScrollValue[n - 1] = (hb.Value - 50) / 10.0f +5f;
+                else
+                    cGL.ScrollValue[n - 1] = (hb.Value - 100) / 10.0f;
+            }
+            else
+                cGL.ScrollValue[n - 1] = (hb.Value - 100) / 10.0f;
+
             if (e != null)
                 cGL.Draw();
         }
@@ -152,7 +172,5 @@ namespace CGProj
         {
             timer1.Enabled = !timer1.Enabled;
         }
-
-
     }
 }

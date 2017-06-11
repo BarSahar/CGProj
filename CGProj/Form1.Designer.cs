@@ -58,6 +58,10 @@
             this.hScrollBar13 = new System.Windows.Forms.HScrollBar();
             this.hScrollBar11 = new System.Windows.Forms.HScrollBar();
             this.hScrollBar12 = new System.Windows.Forms.HScrollBar();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.numericUpDown7 = new System.Windows.Forms.NumericUpDown();
+            this.label9 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
@@ -66,6 +70,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown6)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown7)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -73,14 +78,14 @@
             this.panel1.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.panel1.Location = new System.Drawing.Point(12, 16);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(515, 500);
+            this.panel1.Size = new System.Drawing.Size(515, 522);
             this.panel1.TabIndex = 6;
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             this.panel1.Resize += new System.EventHandler(this.panel1_Resize);
             // 
             // hScrollBar1
             // 
-            this.hScrollBar1.Location = new System.Drawing.Point(550, 16);
+            this.hScrollBar1.Location = new System.Drawing.Point(550, 31);
             this.hScrollBar1.Maximum = 200;
             this.hScrollBar1.Name = "hScrollBar1";
             this.hScrollBar1.Size = new System.Drawing.Size(119, 17);
@@ -90,7 +95,7 @@
             // 
             // hScrollBar2
             // 
-            this.hScrollBar2.Location = new System.Drawing.Point(550, 37);
+            this.hScrollBar2.Location = new System.Drawing.Point(550, 52);
             this.hScrollBar2.Maximum = 200;
             this.hScrollBar2.Name = "hScrollBar2";
             this.hScrollBar2.Size = new System.Drawing.Size(119, 17);
@@ -99,7 +104,7 @@
             // 
             // hScrollBar3
             // 
-            this.hScrollBar3.Location = new System.Drawing.Point(550, 58);
+            this.hScrollBar3.Location = new System.Drawing.Point(550, 73);
             this.hScrollBar3.Maximum = 200;
             this.hScrollBar3.Name = "hScrollBar3";
             this.hScrollBar3.Size = new System.Drawing.Size(119, 17);
@@ -109,7 +114,7 @@
             // 
             // hScrollBar4
             // 
-            this.hScrollBar4.Location = new System.Drawing.Point(550, 88);
+            this.hScrollBar4.Location = new System.Drawing.Point(550, 103);
             this.hScrollBar4.Maximum = 200;
             this.hScrollBar4.Name = "hScrollBar4";
             this.hScrollBar4.Size = new System.Drawing.Size(119, 17);
@@ -119,7 +124,7 @@
             // 
             // hScrollBar5
             // 
-            this.hScrollBar5.Location = new System.Drawing.Point(550, 110);
+            this.hScrollBar5.Location = new System.Drawing.Point(550, 125);
             this.hScrollBar5.Maximum = 200;
             this.hScrollBar5.Name = "hScrollBar5";
             this.hScrollBar5.Size = new System.Drawing.Size(119, 17);
@@ -129,7 +134,7 @@
             // 
             // hScrollBar6
             // 
-            this.hScrollBar6.Location = new System.Drawing.Point(550, 132);
+            this.hScrollBar6.Location = new System.Drawing.Point(550, 147);
             this.hScrollBar6.Maximum = 200;
             this.hScrollBar6.Name = "hScrollBar6";
             this.hScrollBar6.Size = new System.Drawing.Size(119, 17);
@@ -139,7 +144,7 @@
             // 
             // hScrollBar9
             // 
-            this.hScrollBar9.Location = new System.Drawing.Point(549, 208);
+            this.hScrollBar9.Location = new System.Drawing.Point(549, 223);
             this.hScrollBar9.Maximum = 200;
             this.hScrollBar9.Name = "hScrollBar9";
             this.hScrollBar9.Size = new System.Drawing.Size(119, 17);
@@ -149,7 +154,7 @@
             // 
             // hScrollBar8
             // 
-            this.hScrollBar8.Location = new System.Drawing.Point(550, 186);
+            this.hScrollBar8.Location = new System.Drawing.Point(550, 201);
             this.hScrollBar8.Maximum = 200;
             this.hScrollBar8.Name = "hScrollBar8";
             this.hScrollBar8.Size = new System.Drawing.Size(119, 17);
@@ -159,7 +164,7 @@
             // 
             // hScrollBar7
             // 
-            this.hScrollBar7.Location = new System.Drawing.Point(550, 164);
+            this.hScrollBar7.Location = new System.Drawing.Point(550, 179);
             this.hScrollBar7.Maximum = 200;
             this.hScrollBar7.Name = "hScrollBar7";
             this.hScrollBar7.Size = new System.Drawing.Size(119, 17);
@@ -370,7 +375,7 @@
             this.checkBox1.AutoSize = true;
             this.checkBox1.Checked = true;
             this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox1.Location = new System.Drawing.Point(563, 399);
+            this.checkBox1.Location = new System.Drawing.Point(533, 399);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(86, 17);
             this.checkBox1.TabIndex = 23;
@@ -380,39 +385,88 @@
             // 
             // hScrollBar13
             // 
-            this.hScrollBar13.Location = new System.Drawing.Point(533, 476);
+            this.hScrollBar13.Location = new System.Drawing.Point(533, 516);
             this.hScrollBar13.Maximum = 200;
             this.hScrollBar13.Name = "hScrollBar13";
             this.hScrollBar13.Size = new System.Drawing.Size(143, 17);
             this.hScrollBar13.TabIndex = 24;
-            this.hScrollBar13.Value = 130;
+            this.hScrollBar13.Value = 100;
             this.hScrollBar13.Scroll += new System.Windows.Forms.ScrollEventHandler(this.hScrollBarScroll);
             // 
             // hScrollBar11
             // 
-            this.hScrollBar11.Location = new System.Drawing.Point(533, 426);
+            this.hScrollBar11.Location = new System.Drawing.Point(533, 466);
             this.hScrollBar11.Maximum = 200;
             this.hScrollBar11.Name = "hScrollBar11";
             this.hScrollBar11.Size = new System.Drawing.Size(143, 17);
             this.hScrollBar11.TabIndex = 25;
-            this.hScrollBar11.Value = 70;
+            this.hScrollBar11.Value = 60;
             this.hScrollBar11.Scroll += new System.Windows.Forms.ScrollEventHandler(this.hScrollBarScroll);
             // 
             // hScrollBar12
             // 
-            this.hScrollBar12.Location = new System.Drawing.Point(533, 452);
+            this.hScrollBar12.Location = new System.Drawing.Point(533, 492);
             this.hScrollBar12.Maximum = 200;
             this.hScrollBar12.Name = "hScrollBar12";
             this.hScrollBar12.Size = new System.Drawing.Size(143, 17);
             this.hScrollBar12.TabIndex = 26;
-            this.hScrollBar12.Value = 80;
+            this.hScrollBar12.Value = 100;
             this.hScrollBar12.Scroll += new System.Windows.Forms.ScrollEventHandler(this.hScrollBarScroll);
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(568, 449);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(67, 13);
+            this.label7.TabIndex = 27;
+            this.label7.Text = "Light Source";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(588, 9);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(44, 13);
+            this.label8.TabIndex = 28;
+            this.label8.Text = "Look At";
+            // 
+            // numericUpDown7
+            // 
+            this.numericUpDown7.Location = new System.Drawing.Point(533, 422);
+            this.numericUpDown7.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.numericUpDown7.Minimum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            -2147483648});
+            this.numericUpDown7.Name = "numericUpDown7";
+            this.numericUpDown7.Size = new System.Drawing.Size(19, 20);
+            this.numericUpDown7.TabIndex = 6;
+            this.numericUpDown7.ValueChanged += new System.EventHandler(this.numericUpDownValueChanged);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(558, 424);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(51, 13);
+            this.label9.TabIndex = 29;
+            this.label9.Text = "Lid Angle";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(685, 528);
+            this.ClientSize = new System.Drawing.Size(685, 550);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.numericUpDown7);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.label7);
             this.Controls.Add(this.hScrollBar12);
             this.Controls.Add(this.hScrollBar11);
             this.Controls.Add(this.hScrollBar13);
@@ -441,6 +495,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown6)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown7)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -477,6 +532,10 @@
         private System.Windows.Forms.HScrollBar hScrollBar13;
         private System.Windows.Forms.HScrollBar hScrollBar11;
         private System.Windows.Forms.HScrollBar hScrollBar12;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.NumericUpDown numericUpDown7;
+        private System.Windows.Forms.Label label9;
     }
 }
 

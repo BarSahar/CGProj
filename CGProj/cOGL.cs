@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+//using NAudio;
 
 //2
 using System.Drawing;
@@ -25,20 +26,26 @@ namespace OpenGL
             //GL.glVertex3d(0, 10, 5);
             //GL.glVertex3d(10, 10, 5);
             /////
-            ground[0, 0] = 0f;
-            ground[0, 1] = 0f;
+            ground[0, 0] = 10f;
+            ground[0, 1] = 10f;
             ground[0, 2] = 5.1f;
 
             ground[1, 0] = 0f;
             ground[1, 1] = 10f;
             ground[1, 2] = 5.1f;
 
-            ground[2, 0] = 10f;
-            ground[2, 1] = 10f;
+            ground[2, 0] = 0f;
+            ground[2, 1] = 0f;
             ground[2, 2] = 5.1f;
+            
 
             InitializeGL();
             obj = GLU.gluNewQuadric(); //!!!
+
+            System.Media.SoundPlayer player = new System.Media.SoundPlayer();
+            player.SoundLocation = "song.wav";
+            player.PlayLooping();
+            
         }
 
         ~cOGL()
@@ -68,51 +75,21 @@ namespace OpenGL
         }
 
 
-        void DrawOldAxes()
+        
+        void DrawHoleInAPit()
         {
-            //for this time
-            //Lights positioning is here!!!
-            float[] pos = new float[4];
-            pos[0] = 10; pos[1] = 10; pos[2] = 10; pos[3] = 1;
-            GL.glLightfv(GL.GL_LIGHT0, GL.GL_POSITION, pos);
-            GL.glDisable(GL.GL_LIGHTING);
+            GL.glBegin(GL.GL_QUADS);
+            GL.glTexCoord2f(0.0f, 0.0f);
+            GL.glVertex3d(-5, 0, 5);
+            GL.glTexCoord2f(0.0f, 1.0f);
+            GL.glVertex3d(-5, 10, 5);
+            GL.glTexCoord2f(1.0f, 1.0f);
+            GL.glVertex3d(5, 10, 5);
+            GL.glTexCoord2f(1.0f, 0.0f);
+            GL.glVertex3d(5, 0, 5);
+            GL.glEnd();
+        }
 
-            //INITIAL axes
-            GL.glEnable(GL.GL_LINE_STIPPLE);
-            GL.glLineStipple(1, 0xFF00);  //  dotted   
-            GL.glBegin(GL.GL_LINES);
-            //x  RED
-            GL.glColor3f(1.0f, 0.0f, 0.0f);
-            GL.glVertex3f(-3.0f, 0.0f, 0.0f);
-            GL.glVertex3f(3.0f, 0.0f, 0.0f);
-            //y  GREEN 
-            GL.glColor3f(0.0f, 1.0f, 0.0f);
-            GL.glVertex3f(0.0f, -3.0f, 0.0f);
-            GL.glVertex3f(0.0f, 3.0f, 0.0f);
-            //z  BLUE
-            GL.glColor3f(0.0f, 0.0f, 1.0f);
-            GL.glVertex3f(0.0f, 0.0f, -3.0f);
-            GL.glVertex3f(0.0f, 0.0f, 3.0f);
-            GL.glEnd();
-            GL.glDisable(GL.GL_LINE_STIPPLE);
-        }
-        void DrawAxes()
-        {
-            GL.glBegin(GL.GL_LINES);
-            //x  RED
-            GL.glColor3f(1.0f, 0.0f, 0.0f);
-            GL.glVertex3f(-3.0f, 0.0f, 0.0f);
-            GL.glVertex3f(3.0f, 0.0f, 0.0f);
-            //y  GREEN 
-            GL.glColor3f(0.0f, 1.0f, 0.0f);
-            GL.glVertex3f(0.0f, -3.0f, 0.0f);
-            GL.glVertex3f(0.0f, 3.0f, 0.0f);
-            //z  BLUE
-            GL.glColor3f(0.0f, 0.0f, 1.0f);
-            GL.glVertex3f(0.0f, 0.0f, -3.0f);
-            GL.glVertex3f(0.0f, 0.0f, 3.0f);
-            GL.glEnd();
-        }
         void DrawChest()
         {
             GL.glPushMatrix();// save starting position of drawing
@@ -213,7 +190,7 @@ namespace OpenGL
             GL.glBindTexture(GL.GL_TEXTURE_2D, Textures[0]);
             GL.glTranslatef(-5.0f, 0.0f, 0.0f);
             GL.glTranslatef(0, 10.0f, 5.0f);
-            GL.glRotated(70, 1, 0, 0);
+            GL.glRotated(mirrorAngle, 1, 0, 0);
 
             GL.glBegin(GL.GL_QUADS);
 
@@ -294,19 +271,30 @@ namespace OpenGL
             GL.glRotated(intOptionC, 0, 0, 1); //rotating the dancer
             GL.glPushMatrix();// save position of dancer
             //left shoe
+            if (shadow == false)
+                pre_MapSphereTexture(2);
             GL.glRotated(90, 1, 0, 0);
             GLUT.glutSolidTeapot(0.5);
             GL.glRotated(-90, 1, 0, 0);
+            end_MapTexture();
             //left leg
+            if (shadow == false)
+                pre_MapCylinderTexture(3);
             GLU.gluCylinder(obj, 0.2, 0.4, 4, 20, 20);
             GL.glTranslated(0.4f, 0f, 2f);
+            end_MapTexture();
             //right leg
             GL.glRotated(50, 0, 1, 0);
             //right shoe
+            if (shadow == false)
+                pre_MapSphereTexture(2);
             GL.glRotated(90, 1, 0, 0);
             GLUT.glutSolidTeapot(0.5);
             GL.glRotated(-90, 1, 0, 0);
+            end_MapTexture();
             //lower right leg
+            if (shadow == false)
+                pre_MapCylinderTexture(3);
             GLU.gluCylinder(obj, 0.2, 0.25, 2, 20, 20);
             GL.glTranslated(0f, 0f, 2f);
             GL.glRotated(-100, 0, 1, 0);
@@ -315,46 +303,78 @@ namespace OpenGL
             //upper second leg
             GLU.gluCylinder(obj, 0.25, 0.4, 2, 20, 20);
             GL.glPopMatrix(); //reset position to the first leg
+            end_MapTexture();
             //skirt
+            if (shadow == false)
+                pre_MapCylinderTexture(4);
             GL.glTranslated(0f, 0f, 4f);
             GLU.gluCylinder(obj, 2, 0.75, 1.5, 20, 20); 
             GL.glTranslated(0f, 0f, 1.5f);
-            //upperbody
+            end_MapTexture();
+            if (shadow == false)
+                pre_MapCylinderTexture(5);
             GLU.gluCylinder(obj, 0.75, 0.75, 2.5, 20, 20); 
             GL.glTranslated(0f, 0f, 2.5f);
+            end_MapTexture();
             //upper blob
-            GLU.gluSphere(obj, 0.75, 20, 20); 
+            if (shadow == false)
+                pre_MapSphereTexture(5);
+            GLU.gluSphere(obj, 0.75, 20, 20);
+            end_MapTexture();
             //Right
             GL.glPushMatrix();
             GL.glTranslated(0.75f, 0f, 0f);
             //right shoulder
+            if (shadow == false)
+                pre_MapSphereTexture(5);
             GLU.gluSphere(obj, 0.3, 20, 20);
+            end_MapTexture();
             GL.glRotated(shoulderAngle, 1, 0, 0);
             //right arm
+            if (shadow == false)
+                pre_MapCylinderTexture(5);
             GLU.gluCylinder(obj, 0.2, 0.19, 1.5, 20, 20);
             GL.glTranslated(0.0f, 0f, 1.5f);
+            end_MapTexture();
             //right elbow
+            if (shadow == false)
+                pre_MapSphereTexture(5);
             GLU.gluSphere(obj, 0.3, 20, 20);
             GL.glRotated(-15, 1, 0, 0);
+            end_MapTexture();
             //right forearm
+            if (shadow == false)
+                pre_MapCylinderTexture(3);
             GLU.gluCylinder(obj, 0.2, 0.19, 1.5, 20, 20);
             GL.glTranslated(0.0f, 0f, 1.5f);
             //right hand
             GLU.gluCylinder(obj, 0.2, 0, .5, 20, 20);
             GL.glPopMatrix();
+            end_MapTexture();
             //Left
             GL.glPushMatrix();
             GL.glTranslated(-0.75f, 0f, 0f);
             //left shoulder
+            if (shadow == false)
+                pre_MapSphereTexture(5);
             GLU.gluSphere(obj, 0.3, 20, 20); 
             GL.glRotated(shoulderAngle, 1, 0, 0);
+            end_MapTexture();
             //left arm
+            if (shadow == false)
+                pre_MapCylinderTexture(5);
             GLU.gluCylinder(obj, 0.2, 0.19, 1.5, 20, 20); 
             GL.glTranslated(0.0f, 0f, 1.5f);
+            end_MapTexture();
             //left elbow
+            if (shadow == false)
+                pre_MapSphereTexture(5);
             GLU.gluSphere(obj, 0.3, 20, 20); 
             GL.glRotated(-15, 1, 0, 0);
+            end_MapTexture();
             //left forearm
+            if (shadow == false)
+                pre_MapCylinderTexture(3);
             GLU.gluCylinder(obj, 0.2, 0.19, 1.5, 20, 20); 
             GL.glTranslated(0.0f, 0f, 1.5f);
             //left hand
@@ -363,15 +383,19 @@ namespace OpenGL
             //neck
             GLU.gluCylinder(obj, 0.2, 0.19, 0.5+0.75, 20, 20); 
             GL.glTranslated(0.0f, 0f, 1.2f);
+            end_MapTexture();
             //head
+            if (shadow == false)
+                pre_MapCylinderTexture(6);
             GLU.gluSphere(obj, 0.5, 20, 20); 
             GL.glPopMatrix();
+            end_MapTexture();
         }
         void DrawMirror()
         {
             GL.glPushMatrix();
             GL.glTranslated(-5, 10, 5);
-            GL.glRotated(70, 1, 0, 0);
+            GL.glRotated(mirrorAngle, 1, 0, 0);
             GL.glEnable(GL.GL_LIGHTING);
             GL.glBegin(GL.GL_QUADS);
             /*GL.glColor3d(1, 1, 1);
@@ -389,48 +413,6 @@ namespace OpenGL
             GL.glPopMatrix();
         }
 
-        void DrawFigures()
-        {
-            GL.glPushMatrix();
-
-            // must be in scene to be reflected too
-            GL.glLightfv(GL.GL_LIGHT0, GL.GL_POSITION, pos);
-
-            //Draw Light Source
-            GL.glDisable(GL.GL_LIGHTING);
-            GL.glTranslatef(pos[0], pos[1], pos[2]);
-            //Yellow Light source
-            GL.glColor3f(1, 1, 0);
-            GLUT.glutSolidSphere(0.05, 8, 8);
-            GL.glTranslatef(-pos[0], -pos[1], -pos[2]);
-            //projection line from source to plane
-            GL.glBegin(GL.GL_LINES);
-            GL.glColor3d(0.5, 0.5, 0);
-            GL.glVertex3d(pos[0], pos[1], 0);
-            GL.glVertex3d(pos[0], pos[1], pos[2]);
-            GL.glEnd();
-
-            //main System draw
-            GL.glEnable(GL.GL_LIGHTING);
-
-            GL.glRotated(intOptionB, 0, 0, 1); //rotate both
-
-            GL.glColor3f(1, 0, 0);
-            GL.glTranslated(0, -0.5, 1);
-            GL.glRotated(intOptionC, 1, 1, 1);
-            GLUT.glutSolidCube(1);
-            GLUT.glutSolidCube(1);
-            GL.glRotated(-intOptionC, 1, 1, 1);
-            GL.glTranslated(0, -0.5, -1);
-
-            GL.glTranslated(1, 2, 1.5);
-            GL.glRotated(90, 1, 0, 0);
-            GL.glColor3d(0, 1, 1);
-            GL.glRotated(intOptionB, 1, 0, 0);
-            //TODO: draw dancer
-            
-            GL.glPopMatrix();
-        }
 
         public float[] pos = new float[4];
         public int intOptionB = 1;
@@ -444,6 +426,8 @@ namespace OpenGL
         public float xAngle = 0.0f;
         public int intOptionC = 0;
         public int shoulderAngle = 20;
+        public int mirrorAngle = 70;
+        
         public int sin_index = 0;
         double[] AccumulatedRotationsTraslations = new double[16];
 
@@ -543,8 +527,8 @@ namespace OpenGL
             //end of - Handeling of translate rotate mathematically correct
             
             //Animation Values
-            intOptionB += 10;   //dancer rotation
-            intOptionC += 2;    //for rotation
+            intOptionB += 10;   
+            intOptionC += 2;    //dancer rotation
             sin_index++;
                                 //for arms animation
             shoulderAngle = (int)(45 + 45*Math.Sin((2 * Math.PI) / 100 * sin_index));
@@ -553,7 +537,7 @@ namespace OpenGL
             GL.glEnable(GL.GL_BLEND);
             GL.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
 
-            //making a stencil
+            //making a stencil for the mirror
             GL.glEnable(GL.GL_STENCIL_TEST);
             GL.glStencilOp(GL.GL_REPLACE, GL.GL_REPLACE, GL.GL_REPLACE);
             GL.glStencilFunc(GL.GL_ALWAYS, 1, 0xFFFFFFFF);
@@ -574,7 +558,7 @@ namespace OpenGL
             //draw reflected scene
             GL.glPushMatrix();
             GL.glTranslated(0f, 10f, 5f);   //moving into the mirror
-            GL.glRotated(-40, 1, 0, 0);    //rotating according to mirror angle
+            GL.glRotated(mirrorAngle-90, 1, 0, 0);    //rotating according to mirror angle
             GL.glTranslated(0f, 10f, -5f);   //moving into the mirror
             GL.glScalef(1, -1, 1);
             DrawChest();
@@ -598,21 +582,45 @@ namespace OpenGL
             GL.glLightfv(GL.GL_LIGHT0, GL.GL_POSITION, pos);
             GL.glEnable(GL.GL_LIGHTING);
             //NOW draw the scene
+            //Draw Light Source
+            GL.glDisable(GL.GL_LIGHTING);
+            GL.glTranslatef(pos[0], pos[1], pos[2]);
+            //Yellow Light source
+            GL.glColor3f(1, 1, 0);
+            GLUT.glutSolidSphere(0.5, 8, 8);
+            GL.glTranslatef(-pos[0], -pos[1], -pos[2]);
+            GL.glEnable(GL.GL_LIGHTING);
+
             DrawChest();
             DrawChestLid();
             DrawTheWomanInRed(false);
-            // end of draw scene
 
+            //making a stencil for the shadow
+            GL.glEnable(GL.GL_STENCIL_TEST);
+            GL.glStencilOp(GL.GL_REPLACE, GL.GL_REPLACE, GL.GL_REPLACE);
+            GL.glStencilFunc(GL.GL_ALWAYS, 1, 0xFFFFFFFF);
+            GL.glColorMask((byte)GL.GL_FALSE, (byte)GL.GL_FALSE, (byte)GL.GL_FALSE, (byte)GL.GL_FALSE);
+            GL.glDisable(GL.GL_DEPTH_TEST); //draw no matter what
+            //making a hole in the stencil
+            DrawHoleInAPit(); //draws only the top of the chest
+
+            //restore regular settings
+            GL.glColorMask((byte)GL.GL_TRUE, (byte)GL.GL_TRUE, (byte)GL.GL_TRUE, (byte)GL.GL_TRUE);
+            GL.glEnable(GL.GL_DEPTH_TEST);
+
+            //setting stencil test (anything outside is clipped)
+            GL.glStencilFunc(GL.GL_EQUAL, 1, 0xFFFFFFFF);
+            GL.glStencilOp(GL.GL_KEEP, GL.GL_KEEP, GL.GL_KEEP);
+            GL.glEnable(GL.GL_STENCIL_TEST);
+            
+            //draw Shadow
             GL.glPushMatrix();
-            //!!!!!!!!!!!!    		
-            MakeShadowMatrix(ground);
-            GL.glMultMatrixf(cubeXform);
-            //DrawObjects(true, 1);
-            DrawTheWomanInRed(true);
-            //!!!!!!!!!!!!!
+            MakeShadowMatrix(ground); //results in cubeXform - shadow matrix 
+            GL.glMultMatrixf(cubeXform); //flattning everything against chest top plain
+            DrawTheWomanInRed(true); //draws dancer in BLACK
             GL.glPopMatrix();
-
             GL.glDisable(GL.GL_LIGHTING);
+            
             GL.glFlush();
 
             WGL.wglSwapBuffers(m_uint_DC);
@@ -717,6 +725,35 @@ namespace OpenGL
             cubeXform[7] = 0.0f - pos[3] * planeCoeff[1];
             cubeXform[11] = 0.0f - pos[3] * planeCoeff[2];
             cubeXform[15] = dot - pos[3] * planeCoeff[3];
+        }
+        void pre_MapSphereTexture(int index)
+        {
+            GL.glBindTexture(GL.GL_TEXTURE_2D,Textures[index]);
+            GL.glEnable(GL.GL_TEXTURE_2D);
+            GL.glEnable(GL.GL_TEXTURE_GEN_S);
+            GL.glEnable(GL.GL_TEXTURE_GEN_T);
+            GL.glTexGeni(GL.GL_S,GL.GL_TEXTURE_GEN_MODE,(int)GL.GL_SPHERE_MAP);
+            GL.glTexGeni(GL.GL_T, GL.GL_TEXTURE_GEN_MODE, (int)GL.GL_SPHERE_MAP);
+        }
+        void pre_MapCylinderTexture(int index)
+        {
+            //GL.glBindTexture(GL.GL_TEXTURE_2D, Textures[index]);
+            //GL.glEnable(GL.GL_TEXTURE_2D);
+            //GL.glEnable(GL.GL_TEXTURE_GEN_S);
+            //GL.glEnable(GL.GL_TEXTURE_GEN_T);
+            ////GL.glTexGeni(GL.GL_S, GL.GL_TEXTURE_GEN_MODE, (int)GL.GL_OBJECT_LINEAR);
+            //GL.glTexGeni(GL.GL_S, GL.GL_TEXTURE_GEN_MODE, (int)GL.GL_EYE_LINEAR);
+            ////GL.glTexGeni(GL.GL_T, GL.GL_TEXTURE_GEN_MODE, (int)GL.GL_OBJECT_LINEAR);
+            //GL.glTexGeni(GL.GL_T, GL.GL_TEXTURE_GEN_MODE, (int)GL.GL_EYE_LINEAR);
+            GL.glBindTexture(GL.GL_TEXTURE_2D, Textures[index]);
+            GL.glEnable(GL.GL_TEXTURE_2D);
+            GLU.gluQuadricTexture(obj, 1);
+        }
+        void end_MapTexture()
+        {
+            GL.glDisable(GL.GL_TEXTURE_GEN_S);
+            GL.glDisable(GL.GL_TEXTURE_GEN_T);
+            GL.glDisable(GL.GL_TEXTURE_2D);
         }
 
         protected virtual void InitializeGL()
@@ -831,12 +868,12 @@ namespace OpenGL
         }
 
         //! TEXTURE b
-        public uint[] Textures = new uint[6];
+        public uint[] Textures = new uint[10];
 
         void GenerateTextures()
         {
             GL.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
-            string[] imagesName ={ "chestbg.jpg", "chestbg2.jpg", "Flower.bmp","image.bmp"};
+            string[] imagesName ={ "chestbg.jpg", "chestbg2.jpg", "shoe.jpg", "leg.jpg", "tutu.png", "shirt.PNG", "face.jpg" };
             GL.glGenTextures(imagesName.Length, Textures);
             for (int i = 0; i < imagesName.Length; i++)
             {
