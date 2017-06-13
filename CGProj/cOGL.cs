@@ -26,9 +26,9 @@ namespace OpenGL
             InitializeGL();
             obj = GLU.gluNewQuadric(); //!!!
 
-            //System.Media.SoundPlayer player = new System.Media.SoundPlayer();
-            //player.SoundLocation = "../../res/song.wav";
-            //player.PlayLooping();
+            System.Media.SoundPlayer player = new System.Media.SoundPlayer();
+            player.SoundLocation = "../../res/song.wav";
+            player.PlayLooping();
         }
 
         ~cOGL()
