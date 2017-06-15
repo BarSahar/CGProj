@@ -24,7 +24,7 @@ namespace OpenGL
             updateShadowPlanes();
 
             InitializeGL();
-            obj = GLU.gluNewQuadric(); //!!!
+            obj = GLU.gluNewQuadric();
 
             System.Media.SoundPlayer player = new System.Media.SoundPlayer();
             player.SoundLocation = "../../res/song.wav";
@@ -61,8 +61,8 @@ namespace OpenGL
         public void updateShadowPlanes()
         {
             //the chest plane - elevated by 0.1 so to not conflict with the chest
-            ground[0, 0] = 10f;     //y
-            ground[0, 1] = 10f;     //x
+            ground[0, 0] = 10f;     //x
+            ground[0, 1] = 10f;     //y
             ground[0, 2] = 5.1f;    //z
 
             ground[1, 0] = 0f;
@@ -72,6 +72,7 @@ namespace OpenGL
             ground[2, 0] = 0f;
             ground[2, 1] = 0f;
             ground[2, 2] = 5.1f;
+
             //the lid plane - elevated by 0.1 towards the camera (the minus) so to not conflict with the chest
             lid[0, 0] = 10f;
             lid[0, 1] = 10f + (float)Math.Cos(((float)mirrorAngle * Math.PI / 180)) * 10f - (float)Math.Cos(((float)(90-mirrorAngle) * Math.PI / 180)) * 0.01f;
@@ -85,7 +86,7 @@ namespace OpenGL
             lid[2, 1] = 10f - (float)Math.Cos(((float)(90 - mirrorAngle) * Math.PI / 180)) * 0.01f;
             lid[2, 2] = 5.01f - (float)Math.Sin(((float)(90 - mirrorAngle) * Math.PI / 180)) * 0.01f;
         }
-        void DrawHoleInAPit()
+        void DrawHoleInAPit() //draws only top of chest box - for use of shadow stencil
         {
             GL.glBegin(GL.GL_QUADS);
             GL.glVertex3d(-5, 0, 5);
@@ -186,7 +187,7 @@ namespace OpenGL
             GL.glDisable(GL.GL_TEXTURE_2D);
             GL.glPopMatrix();
         }
-        void DrawChestLidTop()
+        void DrawChestLidTop()  //draws only top of chest lid - for use of shadow stencil
         {
             GL.glPushMatrix();// save starting position of drawing
 
@@ -288,7 +289,6 @@ namespace OpenGL
             else
                 GL.glColor3f(1.0f, 1.0f, 1.0f);
 
-            //GL.glTranslatef(-5.0f, -5.0f, 5.2f);
             GL.glTranslatef(0f, 5f, 5.2f);
             GL.glRotated(intOptionB, 0, 0, 1); //rotating the dancer
             GL.glPushMatrix();// save position of dancer
@@ -305,7 +305,7 @@ namespace OpenGL
             GLU.gluCylinder(obj, 0.2, 0.4, 4, 20, 20);
             GL.glTranslated(0.4f, 0f, 2f);
             end_MapTexture();
-            //right leg
+            //right leg - rotate to leg angle
             GL.glRotated(50, 0, 1, 0);
             //right shoe
             if (shadow == false)
