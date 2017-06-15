@@ -101,7 +101,7 @@ namespace OpenGL
             GL.glTranslatef(-5.0f, 0.0f, 0.0f);
             GL.glColor3f(1.0f, 1.0f, 1.0f);
             GL.glEnable(GL.GL_TEXTURE_2D);
-            GL.glBindTexture(GL.GL_TEXTURE_2D, Textures[0]);
+            GL.glBindTexture(GL.GL_TEXTURE_2D, Textures[(0 + textureOffset) % Textures.Length]);
             GL.glBegin(GL.GL_QUADS);
             
             //bottom
@@ -125,7 +125,7 @@ namespace OpenGL
             GL.glVertex3d(10, 0, 5);
 
             GL.glEnd();
-            GL.glBindTexture(GL.GL_TEXTURE_2D, Textures[1]);
+            GL.glBindTexture(GL.GL_TEXTURE_2D, Textures[(1 + textureOffset) % Textures.Length]);
             GL.glBegin(GL.GL_QUADS);
 
             //top - other texture
@@ -139,7 +139,7 @@ namespace OpenGL
             GL.glVertex3d(9.5, 0.5, 5.01f);
 
             GL.glEnd();
-            GL.glBindTexture(GL.GL_TEXTURE_2D, Textures[0]);
+            GL.glBindTexture(GL.GL_TEXTURE_2D, Textures[(0 + textureOffset) % Textures.Length]);
             GL.glBegin(GL.GL_QUADS);
 
             //front
@@ -209,7 +209,7 @@ namespace OpenGL
 
             GL.glColor3f(1.0f, 1.0f, 1.0f);
             GL.glEnable(GL.GL_TEXTURE_2D);
-            GL.glBindTexture(GL.GL_TEXTURE_2D, Textures[0]);
+            GL.glBindTexture(GL.GL_TEXTURE_2D, Textures[(0 + textureOffset) % Textures.Length]);
             GL.glTranslatef(-5.0f, 0.0f, 0.0f);
             GL.glTranslatef(0, 10.0f, 5.0f);
             GL.glRotated(mirrorAngle, 1, 0, 0);
@@ -442,6 +442,7 @@ namespace OpenGL
         public float yAngle = 0.0f;
         public float xAngle = 0.0f;
         public int intOptionC = 0;
+        public int textureOffset = 0;
         public int shoulderAngle = 20;
         public int mirrorAngle = 70;
         
@@ -755,31 +756,24 @@ namespace OpenGL
         }
         void pre_MapSphereTexture(int index)
         {
-            GL.glBindTexture(GL.GL_TEXTURE_2D,Textures[index]);
+            GL.glBindTexture(GL.GL_TEXTURE_2D,Textures[(index+textureOffset) % Textures.Length]);
             GL.glEnable(GL.GL_TEXTURE_2D);
-            GL.glEnable(GL.GL_TEXTURE_GEN_S);
-            GL.glEnable(GL.GL_TEXTURE_GEN_T);
-            GL.glTexGeni(GL.GL_S,GL.GL_TEXTURE_GEN_MODE,(int)GL.GL_SPHERE_MAP);
-            GL.glTexGeni(GL.GL_T, GL.GL_TEXTURE_GEN_MODE, (int)GL.GL_SPHERE_MAP);
+            //GL.glEnable(GL.GL_TEXTURE_GEN_S);
+            //GL.glEnable(GL.GL_TEXTURE_GEN_T);
+            //GL.glTexGeni(GL.GL_S,GL.GL_TEXTURE_GEN_MODE,(int)GL.GL_SPHERE_MAP);
+            //GL.glTexGeni(GL.GL_T, GL.GL_TEXTURE_GEN_MODE, (int)GL.GL_SPHERE_MAP);
+            GLU.gluQuadricTexture(obj, 1);
         }
         void pre_MapCylinderTexture(int index)
         {
-            //GL.glBindTexture(GL.GL_TEXTURE_2D, Textures[index]);
-            //GL.glEnable(GL.GL_TEXTURE_2D);
-            //GL.glEnable(GL.GL_TEXTURE_GEN_S);
-            //GL.glEnable(GL.GL_TEXTURE_GEN_T);
-            ////GL.glTexGeni(GL.GL_S, GL.GL_TEXTURE_GEN_MODE, (int)GL.GL_OBJECT_LINEAR);
-            //GL.glTexGeni(GL.GL_S, GL.GL_TEXTURE_GEN_MODE, (int)GL.GL_EYE_LINEAR);
-            ////GL.glTexGeni(GL.GL_T, GL.GL_TEXTURE_GEN_MODE, (int)GL.GL_OBJECT_LINEAR);
-            //GL.glTexGeni(GL.GL_T, GL.GL_TEXTURE_GEN_MODE, (int)GL.GL_EYE_LINEAR);
-            GL.glBindTexture(GL.GL_TEXTURE_2D, Textures[index]);
+            GL.glBindTexture(GL.GL_TEXTURE_2D, Textures[(index + textureOffset) % Textures.Length]);
             GL.glEnable(GL.GL_TEXTURE_2D);
             GLU.gluQuadricTexture(obj, 1);
         }
         void end_MapTexture()
         {
-            GL.glDisable(GL.GL_TEXTURE_GEN_S);
-            GL.glDisable(GL.GL_TEXTURE_GEN_T);
+            //GL.glDisable(GL.GL_TEXTURE_GEN_S);
+            //GL.glDisable(GL.GL_TEXTURE_GEN_T);
             GL.glDisable(GL.GL_TEXTURE_2D);
         }
 
@@ -895,12 +889,13 @@ namespace OpenGL
         }
 
         //! TEXTURE b
-        public uint[] Textures = new uint[10];
+        public uint[] Textures;
 
         void GenerateTextures()
         {
             GL.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
             string[] imagesName ={ "chestbg.jpg", "chestbg2.jpg", "shoe.jpg", "leg.jpg", "tutu.png", "shirt.PNG", "face.jpg" };
+            Textures = new uint[imagesName.Length];
             GL.glGenTextures(imagesName.Length, Textures);
             for (int i = 0; i < imagesName.Length; i++)
             {

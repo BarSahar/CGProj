@@ -176,5 +176,19 @@ namespace CGProj
         {
             timer1.Enabled = !timer1.Enabled;
         }
+        bool swap = true;
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (swap)
+            {                
+                Random rnd = new Random();
+                cGL.textureOffset = rnd.Next(1, 15);   
+            }
+            else
+                cGL.textureOffset = 0;
+
+            swap = !swap;
+            cGL.Draw();
+        }
     }
 }
